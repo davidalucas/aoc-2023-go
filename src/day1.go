@@ -52,14 +52,14 @@ func CalibrateEnhanced(lines *[]string, numMap map[string]int) int {
 	for i := 0; i < len(*lines); i++ {
 		line = (*lines)[i]
 		for j := 0; j < len(line); j++ {
-			val, found := PerformEnhancedForwardSearch(line, numMap)
+			val, found := PerformEnhancedForwardSearch(line, j, numMap)
 			if found {
 				first = val
 				break
 			}
 		}
 		for j := len(line) - 1; j >= 0; j-- {
-			val, found := PerformEnhancedReverseSearch(line, numMap)
+			val, found := PerformEnhancedReverseSearch(line, j, numMap)
 			if found {
 				second = val
 				break
@@ -72,14 +72,14 @@ func CalibrateEnhanced(lines *[]string, numMap map[string]int) int {
 	return sum
 }
 
-func PerformEnhancedForwardSearch(line string, numMap map[string]int) (int, bool) {
+func PerformEnhancedForwardSearch(line string, idx int, numMap map[string]int) (int, bool) {
 	num := 0
 	found := false
 
 	return num, found
 }
 
-func PerformEnhancedReverseSearch(line string, numMap map[string]int) (int, bool) {
+func PerformEnhancedReverseSearch(line string, idx int, numMap map[string]int) (int, bool) {
 	num := 0
 	found := false
 
