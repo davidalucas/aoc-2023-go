@@ -11,9 +11,10 @@ func Calibrate(lines *[]string) int {
 
 	first := 0;
 	second := 0;
+	line := "";
 
 	for i := 0; i < len(*lines); i++ {
-		line := (*lines)[i]
+		line = (*lines)[i]
 		// loop forward
 		for j := 0; j < len(line); j++ {
 			val, err := strconv.Atoi(string(line[j]))
