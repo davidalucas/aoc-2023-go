@@ -2,6 +2,10 @@ package aoc2023go
 
 import "strconv"
 
+// Calibrate calculates the calibration sum based on the provided lines.
+// It iterates through each line and finds the first and last digit in each line.
+// The first and last digits are converted to integers and added to the sum.
+// The final sum is returned.
 func Calibrate(lines *[]string) int {
 	sum := 0;
 
