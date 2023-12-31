@@ -52,15 +52,31 @@ var numMap = map[string]int{
 
 func Test_CalibrateEnhanced_With_Sample_Data(t *testing.T) {
 	data := []string{
-		"two1nine",
-		"eightwothree",
-		"abcone2threexyz",
-		"xtwone3four",
-		"4nineeightseven2",
-		"zoneight234",
-		"7pqrstsixteen",
+		"two1nine",         // 29
+		"eightwothree",     // 83
+		"abcone2threexyz",  // 13
+		"xtwone3four",      // 24
+		"4nineeightseven2", // 42
+		"zoneight234",      // 14
+		"7pqrstsixteen",    // 76
+		"one",              // 11
+		"two",              // 22
+		"three",            // 33
+		"four",             // 44
+		"five",             // 55
+		"six",              // 66
+		"seven",            // 77
+		"eight",            // 88
+		"nine",             // 99
+		"twone",            // 21
+		"eightwo",          // 82
+		"nineight",         // 98
+		"eighthree",        // 83
+		"nineeight",        // 98
+		"eeeight",          // 88
+		"oooneeone",        // 11
 	}
-	expected := 281
+	expected := 1257
 	actual := CalibrateEnhanced(&data, numMap)
 	if actual != expected {
 		t.Fatalf(`Expected %v, received %v`, expected, actual)
@@ -78,5 +94,29 @@ func Test_CalibrateEnhanced_With_Real_Data(t *testing.T) {
 	actual := CalibrateEnhanced(&data, numMap)
 	if actual != expected {
 		t.Fatalf(`Expected %v, received %v`, expected, actual)
+	}
+}
+
+func Test_PerformEnhancedForwardSearch(t *testing.T) {
+	data := "abcone2threexyz"
+	expectedInt := 1
+	expectedBool := true
+
+	actualInt, actualBool := PerformEnhancedForwardSearch(data, 3, numMap)
+
+	if actualInt != expectedInt || actualBool != expectedBool {
+		t.Fatalf(`Expected (int, bool) return to be (%v, %v), received (%v, %v)`, expectedInt, expectedBool, actualInt, actualBool)
+	}
+}
+
+func Test_PerformEnhancedReverseSearch(t *testing.T) {
+	data := "abcone2threexyz"
+	expectedInt := 3
+	expectedBool := true
+
+	actualInt, actualBool := PerformEnhancedReverseSearch(data, 11, numMap)
+
+	if actualInt != expectedInt || actualBool != expectedBool {
+		t.Fatalf(`Expected (int, bool) return to be (%v, %v), received (%v, %v)`, expectedInt, expectedBool, actualInt, actualBool)
 	}
 }

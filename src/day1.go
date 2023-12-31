@@ -73,15 +73,56 @@ func CalibrateEnhanced(lines *[]string, numMap map[string]int) int {
 }
 
 func PerformEnhancedForwardSearch(line string, idx int, numMap map[string]int) (int, bool) {
-	num := 0
-	found := false
+	num, err := strconv.Atoi(string(line[idx]))
+	if err == nil {
+		return num, true
+	}
 
-	return num, found
+	substr := ""
+	endIdx := 0
+	for key, val := range numMap {
+		endIdx = idx + len(key)
+		if endIdx > len(line) {
+			continue
+		} else if endIdx == len(line) {
+			substr = line[idx:]
+		} else {
+			substr = line[idx:endIdx]
+		}
+		if substr == key {
+			return val, true
+		}
+	}
+
+	return 0, false
 }
 
 func PerformEnhancedReverseSearch(line string, idx int, numMap map[string]int) (int, bool) {
-	num := 0
-	found := false
+	num, err := strconv.Atoi(string(line[idx]))
+	if err == nil {
+		return num, true
+	}
 
-	return num, found
+	substr := ""
+	startIdx := 0
+	endIdx := idx + 1
+	if endIdx > len(line) {
+		return 0, false
+	}
+	for key, val := range numMap {
+		startIdx = idx - len(key) + 1
+		// careful, could end up OOB in both directions
+		if startIdx < 0 {
+			continue
+		} else if endIdx == len(line) {
+			substr = line[startIdx:]
+		} else {
+			substr = line[startIdx:endIdx]
+		}
+		if substr == key {
+			return val, true
+		}
+	}
+
+	return 0, false
 }
