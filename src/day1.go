@@ -7,11 +7,11 @@ import "strconv"
 // The first and last digits are converted to integers and added to the sum.
 // The final sum is returned.
 func Calibrate(lines *[]string) int {
-	sum := 0;
+	sum := 0
 
-	first := 0;
-	second := 0;
-	line := "";
+	first := 0
+	second := 0
+	line := ""
 
 	for i := 0; i < len(*lines); i++ {
 		line = (*lines)[i]
@@ -19,24 +19,30 @@ func Calibrate(lines *[]string) int {
 		for j := 0; j < len(line); j++ {
 			val, err := strconv.Atoi(string(line[j]))
 			if err != nil {
-				continue;
+				continue
 			}
 			first = val
-			break;
+			break
 		}
 
 		// loop backward
 		for j := len(line) - 1; j >= 0; j-- {
 			val, err := strconv.Atoi(string(line[j]))
 			if err != nil {
-				continue;
+				continue
 			}
 			second = val
-			break;
+			break
 		}
 
-		sum += first * 10 + second
+		sum += first*10 + second
 	}
-	
-	return sum;
+
+	return sum
+}
+
+func CalibrateEnhanced(lines *[]string, numMap map[string]int) int {
+	sum := 0
+
+	return sum
 }
