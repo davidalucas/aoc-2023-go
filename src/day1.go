@@ -36,6 +36,7 @@ func Calibrate(lines *[]string) int {
 		}
 
 		sum += first*10 + second
+		first, second = 0, 0
 	}
 
 	return sum
@@ -44,5 +45,43 @@ func Calibrate(lines *[]string) int {
 func CalibrateEnhanced(lines *[]string, numMap map[string]int) int {
 	sum := 0
 
+	first := 0
+	second := 0
+	line := ""
+
+	for i := 0; i < len(*lines); i++ {
+		line = (*lines)[i]
+		for j := 0; j < len(line); j++ {
+			val, found := PerformEnhancedForwardSearch(line, numMap)
+			if found {
+				first = val
+				break
+			}
+		}
+		for j := len(line) - 1; j >= 0; j-- {
+			val, found := PerformEnhancedReverseSearch(line, numMap)
+			if found {
+				second = val
+				break
+			}
+		}
+		sum += first*10 + second
+		first, second = 0, 0
+	}
+
 	return sum
+}
+
+func PerformEnhancedForwardSearch(line string, numMap map[string]int) (int, bool) {
+	num := 0
+	found := false
+
+	return num, found
+}
+
+func PerformEnhancedReverseSearch(line string, numMap map[string]int) (int, bool) {
+	num := 0
+	found := false
+
+	return num, found
 }
