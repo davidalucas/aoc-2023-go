@@ -17,6 +17,10 @@ func Test_Calibrate_With_Sample_Data(t *testing.T) {
 	}
 }
 
+// Test_Calibrate_With_Real_Data tests the Calibrate function with real data.
+// It reads the content from "../data/day1.txt", splits it by newline,
+// and compares the expected result with the actual result.
+// If they don't match, it fails the test.
 func Test_Calibrate_With_Real_Data(t *testing.T) {
 	content, err := os.ReadFile("../data/day1.txt")
 	if err != nil {
