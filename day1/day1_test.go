@@ -1,4 +1,4 @@
-package aoc2023go
+package day1
 
 import (
 	"os"
@@ -22,7 +22,7 @@ func Test_Calibrate_With_Sample_Data(t *testing.T) {
 // and compares the expected result with the actual result.
 // If they don't match, it fails the test.
 func Test_Calibrate_With_Real_Data(t *testing.T) {
-	content, err := os.ReadFile("../data/day1.txt")
+	content, err := os.ReadFile("day1.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,7 +84,7 @@ func Test_CalibrateEnhanced_With_Sample_Data(t *testing.T) {
 }
 
 func Test_CalibrateEnhanced_With_Real_Data(t *testing.T) {
-	content, err := os.ReadFile("../data/day1.txt")
+	content, err := os.ReadFile("day1.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
