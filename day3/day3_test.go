@@ -1,7 +1,9 @@
 package day3
 
 import (
+	"os"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -59,6 +61,34 @@ func Test_MakeSchematic_With_Sample_Data(t *testing.T) {
 		if !reflect.DeepEqual(a, expected[i]) {
 			t.Errorf("Expected %+v, got %+v", expected[i], a)
 		}
+	}
+}
+
+func Test_MakeSchematic_With_Real_Data(t *testing.T) {
+	content, err := os.ReadFile("day3.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	data := strings.Split(string(content), "\n")
+	expected := 544664
+
+	schematic, err := ParseSchematic(data)
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+
+	actual := 0
+	for _, partNums := range schematic {
+		for _, pn := range partNums {
+			if pn.IsValid {
+				actual += pn.Number
+			}
+		}
+	}
+
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 
 }

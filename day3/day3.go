@@ -30,6 +30,9 @@ func ParseSchematic(data []string) ([][]PartNumber, error) {
 
 			for err == nil {
 				j++
+				if j >= len(chars) {
+					break
+				}
 				_, err = strconv.Atoi(chars[j])
 			}
 			end := j - 1
