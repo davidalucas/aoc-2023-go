@@ -17,27 +17,25 @@ type Reveal struct {
 	Blues  int
 }
 
-func MakeReveal(strData string) (Reveal, error) {
-	reveal := Reveal{}
-	var err error
-
+func MakeReveal(strData string) (*Reveal, error) {
 	splitData := strings.Split(strData, ", ")
+	revMap := make(map[string]int, len(splitData))
 	for _, s := range splitData {
 		couple := strings.Split(s, " ")
-		switch couple[1] {
-		case "red":
-			reveal.Reds, err = strconv.Atoi(couple[0])
-		case "green":
-			reveal.Greens, err = strconv.Atoi(couple[0])
-		case "blue":
-			reveal.Blues, err = strconv.Atoi(couple[0])
-		}
+		val, err := strconv.Atoi(couple[0])
 		if err != nil {
-			return reveal, err
+			return nil, err
 		}
+		revMap[couple[1]] = val
 	}
 
-	return reveal, err
+	reveal := Reveal{
+		Reds:   revMap["red"],
+		Greens: revMap["green"],
+		Blues:  revMap["blue"],
+	}
+
+	return &reveal, nil
 }
 
 func MakeCubeGame(strData string) (CubeGame, error) {
@@ -56,7 +54,7 @@ func MakeCubeGame(strData string) (CubeGame, error) {
 		if err != nil {
 			return cg, err
 		}
-		cg.Reveals = append(cg.Reveals, reveal) // not the most performant, but it's fine since it's only going to re-assign a max of 3 times
+		cg.Reveals = append(cg.Reveals, *reveal) // not the most performant, but it's fine since it's only going to re-assign a max of 3 times
 	}
 
 	return cg, err

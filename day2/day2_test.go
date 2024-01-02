@@ -15,7 +15,7 @@ func Test_MakeReveal(t *testing.T) {
 		t.Errorf("Method returned the following error: %v", err.Error())
 	}
 
-	if !reflect.DeepEqual(result, expected) {
+	if !reflect.DeepEqual(*result, expected) {
 		t.Errorf("Expected %+v, got %+v", expected, result)
 	}
 }
