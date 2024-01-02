@@ -1,4 +1,4 @@
-package aoc2023go
+package day1
 
 import "strconv"
 
