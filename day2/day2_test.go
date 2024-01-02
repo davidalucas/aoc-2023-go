@@ -67,12 +67,7 @@ func Test_IsGamePossible_With_Sample_Data(t *testing.T) {
 			t.Errorf("Failed to make CubeGame: %v", err)
 			continue
 		}
-
-		result, err := game.IsGamePossible(12, 13, 14)
-		if err != nil {
-			t.Errorf("IsGamePossible failed on test %v with the following error: %v", i+1, err.Error())
-		}
-		results[i] = result
+		results[i] = game.IsGamePossible(12, 13, 14)
 	}
 
 	// assert
