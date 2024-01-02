@@ -42,11 +42,13 @@ func ParseSchematic(data []string) ([][]PartNumber, error) {
 		}
 	}
 
+	regex, _ := regexp.Compile(`[^0-9\.]`)
+
 	// validate all part numbers against schematic
 	for i, line := range data {
 		chars := strings.Split(line, "")
 		for j, char := range chars {
-			match, _ := regexp.MatchString(`[^0-9\.]`, char)
+			match := regex.MatchString(char)
 			if !match {
 				continue
 			}
