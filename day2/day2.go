@@ -108,5 +108,15 @@ func (game *CubeGame) GetPower() int {
 // GetPower calculates the sum of all of the powers for each of the games
 // in the provided data set. Solves Day 2 Part 2.
 func GetPower(data []string) (int, error) {
-	return 0, nil
+	sum := 0
+
+	for _, line := range data {
+		game, err := MakeCubeGame(line)
+		if err != nil {
+			return sum, err
+		}
+		sum += game.GetPower()
+	}
+
+	return sum, nil
 }

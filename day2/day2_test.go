@@ -137,3 +137,22 @@ func Test_GetPower_With_Sample_Data(t *testing.T) {
 		t.Errorf("Expected %+v, got %+v", expected, results)
 	}
 }
+
+func Test_GetPower_With_Real_Data(t *testing.T) {
+	content, err := os.ReadFile("day2.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	data := strings.Split(string(content), "\n")
+	expected := 56580
+	actual, err := GetPower(data)
+
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
