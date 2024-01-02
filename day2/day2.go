@@ -29,35 +29,31 @@ func MakeReveal(strData string) (*Reveal, error) {
 		revMap[couple[1]] = val
 	}
 
-	reveal := Reveal{
+	return &Reveal{
 		Reds:   revMap["red"],
 		Greens: revMap["green"],
 		Blues:  revMap["blue"],
-	}
-
-	return &reveal, nil
+	}, nil
 }
 
-func MakeCubeGame(strData string) (CubeGame, error) {
-	cg := CubeGame{}
-	var err error
-
+func MakeCubeGame(strData string) (*CubeGame, error) {
 	splitData := strings.Split(strData, ": ")
-	cg.GameNumber, err = strconv.Atoi(strings.Split(splitData[0], " ")[1])
+	gameNumber, err := strconv.Atoi(strings.Split(splitData[0], " ")[1])
 	if err != nil {
-		return cg, fmt.Errorf(`failed to parse out game number for cube game: %v`, splitData[0])
+		return nil, fmt.Errorf(`failed to parse out game number for cube game: %v`, splitData[0])
 	}
 
 	rawRevealData := strings.Split(splitData[1], "; ")
-	for _, r := range rawRevealData {
+	reveals := make([]Reveal, len(rawRevealData))
+	for i, r := range rawRevealData {
 		reveal, err := MakeReveal(r)
 		if err != nil {
-			return cg, err
+			return nil, err
 		}
-		cg.Reveals = append(cg.Reveals, *reveal) // not the most performant, but it's fine since it's only going to re-assign a max of 3 times
+		reveals[i] = *reveal
 	}
 
-	return cg, err
+	return &CubeGame{GameNumber: gameNumber, Reveals: reveals}, nil
 }
 
 func (game *CubeGame) IsGamePossible(maxRed int, maxGreen int, maxBlue int) bool {
