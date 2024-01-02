@@ -40,3 +40,43 @@ func Test_MakeCubeGame(t *testing.T) {
 		t.Errorf("Expected %+v, got %+v", expected, result)
 	}
 }
+
+func Test_IsGamePossible_With_Sample_Data(t *testing.T) {
+	// setup
+	data := []string{
+		"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
+		"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
+		"Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
+		"Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
+		"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
+	}
+
+	expected := []bool{
+		true,
+		true,
+		false,
+		false,
+		true,
+	}
+
+	// test
+	results := make([]bool, len(data))
+	for i, d := range data {
+		game, err := MakeCubeGame(d)
+		if err != nil {
+			t.Errorf("Failed to make CubeGame: %v", err)
+			continue
+		}
+
+		result, err := game.IsGamePossible(12, 13, 14)
+		if err != nil {
+			t.Errorf("IsGamePossible failed on test %v with the following error: %v", i+1, err.Error())
+		}
+		results[i] = result
+	}
+
+	// assert
+	if !reflect.DeepEqual(results, expected) {
+		t.Errorf("Expected %+v, got %+v", expected, results)
+	}
+}

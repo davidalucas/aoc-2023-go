@@ -61,3 +61,8 @@ func MakeCubeGame(strData string) (CubeGame, error) {
 
 	return cg, err
 }
+
+func (*CubeGame) IsGamePossible(maxRed int, maxGreen int, maxBlue int) (bool, error) {
+	var err error
+	return true, err
+}
