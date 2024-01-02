@@ -9,7 +9,11 @@ func Test_MakeReveal(t *testing.T) {
 	input := "1 red, 2 green, 6 blue"
 	expected := Reveal{Reds: 1, Greens: 2, Blues: 6}
 
-	result := MakeReveal(input)
+	result, err := MakeReveal(input)
+
+	if err != nil {
+		t.Errorf("Method returned the following error: %v", err.Error())
+	}
 
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %+v, got %+v", expected, result)
@@ -26,7 +30,11 @@ func Test_MakeCubeGame(t *testing.T) {
 		},
 	}
 
-	result := MakeCubeGame(input)
+	result, err := MakeCubeGame(input)
+
+	if err != nil {
+		t.Errorf("Method returned the following error: %v", err.Error())
+	}
 
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %+v, got %+v", expected, result)
