@@ -56,11 +56,29 @@ func MakeCubeGame(strData string) (*CubeGame, error) {
 	return &CubeGame{GameNumber: gameNumber, Reveals: reveals}, nil
 }
 
-func (game *CubeGame) IsGamePossible(maxRed int, maxGreen int, maxBlue int) bool {
+func (game *CubeGame) IsPossible(maxRed int, maxGreen int, maxBlue int) bool {
 	for _, r := range game.Reveals {
 		if r.Reds > maxRed || r.Greens > maxGreen || r.Blues > maxBlue {
 			return false
 		}
 	}
 	return true
+}
+
+func SumPossibleGames(gameData []string, maxRed int, maxGreen int, maxBlue int) (int, error) {
+	game := &CubeGame{}
+	var err error
+	sum := 0
+
+	for _, data := range gameData {
+		game, err = MakeCubeGame(data)
+		if err != nil {
+			return 0, err
+		}
+		if game.IsPossible(maxRed, maxGreen, maxBlue) {
+			sum += game.GameNumber
+		}
+	}
+
+	return sum, nil
 }
