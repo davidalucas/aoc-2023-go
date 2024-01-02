@@ -82,3 +82,41 @@ func SumPossibleGames(gameData []string, maxRed int, maxGreen int, maxBlue int) 
 
 	return sum, nil
 }
+
+// GetPower calculates the power factor described in the Day 2 Part 2 problem
+// for this game.
+func (game *CubeGame) GetPower() int {
+	redsRequired := 0
+	greensRequired := 0
+	bluesRequired := 0
+
+	for _, r := range game.Reveals {
+		if redsRequired < r.Reds {
+			redsRequired = r.Reds
+		}
+		if greensRequired < r.Greens {
+			greensRequired = r.Greens
+		}
+		if bluesRequired < r.Blues {
+			bluesRequired = r.Blues
+		}
+	}
+
+	return redsRequired * greensRequired * bluesRequired
+}
+
+// GetPower calculates the sum of all of the powers for each of the games
+// in the provided data set. Solves Day 2 Part 2.
+func GetPower(data []string) (int, error) {
+	sum := 0
+
+	for _, line := range data {
+		game, err := MakeCubeGame(line)
+		if err != nil {
+			return sum, err
+		}
+		sum += game.GetPower()
+	}
+
+	return sum, nil
+}
