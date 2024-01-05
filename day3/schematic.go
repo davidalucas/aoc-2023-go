@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 type Schematic struct {
@@ -151,4 +152,77 @@ func (schematic *Schematic) MakeAsteriskMap(line int, linePosition int) map[int]
 		}
 	}
 	return asteriskMap
+}
+
+// SumAllGearRatios performs the calculation described in the Day 3 Part 2
+// problem description.
+func (schematic *Schematic) SumAllGearRatios() (int, error) {
+	gearRatioSum := 0
+	for i := 0; i < len(schematic.Data); i++ {
+		line := schematic.Data[i]
+		for j := 0; j < len(line); j++ {
+			ch := line[j]
+			if ch != '*' {
+				continue
+			}
+			astMap := schematic.MakeAsteriskMap(i, j)
+			parts, err := schematic.FindPartsAroundAsterisk(&astMap)
+			if err != nil {
+				return 0, err
+			}
+			if len(parts) == 2 {
+				gearRatioSum += parts[0] * parts[1]
+			}
+		}
+	}
+	return gearRatioSum, nil
+}
+
+// FindPartsAroundAsterisk walks around the provided asterisk map, finding all part numbers
+// which coincide with the area immediately surrounding an asterisk symbol. It implements
+// memoization so that each character surrounding the asterisk symbol is analyzed only once,
+// simultaneously preventing duplicate parts from being detected.
+func (schematic *Schematic) FindPartsAroundAsterisk(astMap *map[int]map[int]bool) ([]int, error) {
+	var parts []int
+	for lineIdx := range *astMap {
+		for chIdx, needsEvaluation := range (*astMap)[lineIdx] {
+			if !needsEvaluation {
+				continue
+			}
+			ch := schematic.Data[lineIdx][chIdx]
+			if !unicode.IsDigit(rune(ch)) {
+				continue
+			}
+			startIdx, endIdx := chIdx, chIdx
+			// walk left
+			for startIdx > 0 {
+				if !unicode.IsDigit(rune(schematic.Data[lineIdx][startIdx-1])) {
+					break
+				}
+				startIdx--
+				// memoize if this element is in the asterisk map
+				if (*astMap)[lineIdx][startIdx] {
+					(*astMap)[lineIdx][startIdx] = false
+				}
+			}
+			// walk right
+			for endIdx < len(schematic.Data[lineIdx])-1 {
+				if !unicode.IsDigit(rune(schematic.Data[lineIdx][endIdx+1])) {
+					break
+				}
+				endIdx++
+				// memoize if this element is in the asterisk map
+				if (*astMap)[lineIdx][endIdx] {
+					(*astMap)[lineIdx][endIdx] = false
+				}
+			}
+			// add part to list
+			partNum, err := strconv.Atoi(schematic.Data[lineIdx][startIdx : endIdx+1])
+			if err != nil {
+				return nil, err
+			}
+			parts = append(parts, partNum)
+		}
+	}
+	return parts, nil
 }

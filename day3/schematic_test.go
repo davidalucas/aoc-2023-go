@@ -79,7 +79,7 @@ func Test_FindAllParts_With_Sample_Data(t *testing.T) {
 func Test_FindAllParts_With_Real_Data(t *testing.T) {
 	expected := 544664
 
-	schematic, err := MakeSchematic("day3.txt")
+	schematic, err := MakeSchematic("data.txt")
 	if err != nil {
 		t.Errorf("Test failed with the following error: %v", err)
 	}
@@ -105,7 +105,7 @@ func Test_FindAllParts_With_Real_Data(t *testing.T) {
 }
 
 func Test_MakeAsteriskMap_With_Example_Data(t *testing.T) {
-	schematic, err := MakeSchematic("day3.txt")
+	schematic, err := MakeSchematic("data.txt")
 	if err != nil {
 		t.Errorf("Test failed with the following error: %v", err)
 	}
@@ -119,6 +119,38 @@ func Test_MakeAsteriskMap_With_Example_Data(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 }
+
+func Test_SumAllGearRatios_Gets_Correct_Sum_From_Example_Data(t *testing.T) {
+	schematic, err := MakeSchematic("example.txt")
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	expected := 467835
+	actual, err := schematic.SumAllGearRatios()
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
+
+func Test_SumAllGearRatios_Gets_Correct_Sum_From_Real_Data(t *testing.T) {
+	schematic, err := MakeSchematic("data.txt")
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	expected := 84495585
+	actual, err := schematic.SumAllGearRatios()
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
+
+// private functions
 
 func mapsEqual(a, b map[int]map[int]bool) bool {
 	if len(a) != len(b) {
