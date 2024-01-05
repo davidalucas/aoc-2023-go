@@ -13,6 +13,14 @@ type PartNumber struct {
 	EndIdx   int
 }
 
+type Gear struct {
+	Parts []PartNumber
+}
+
+func (gear *Gear) Ratio() int {
+	return gear.Parts[0].Number * gear.Parts[1].Number
+}
+
 // ParseSchematic parses the provided string data, producing a
 // 2D array of PartNumbers.
 func ParseSchematic(data []string) ([][]PartNumber, error) {
