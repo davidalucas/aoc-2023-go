@@ -21,6 +21,55 @@ func (gear *Gear) Ratio() int {
 	return gear.Parts[0].Number * gear.Parts[1].Number
 }
 
+// GetAsteriskMap returns a map representing the surrounding area of an asterisk in a grid.
+// The asterisk is located at the specified line and linePosition.
+// The map contains boolean values indicating whether each position needs to be assessed
+// (i.e. 'false' indicates that this location can be skipped).
+func GetAsteriskMap(data []string, line int, linePosition int) map[int]map[int]bool {
+	asteriskMap := map[int]map[int]bool{
+		line - 1: {
+			linePosition - 1: true,
+			linePosition:     true,
+			linePosition + 1: true,
+		},
+		line: {
+			linePosition - 1: true,
+			linePosition:     false, // this is the location of the asterisk
+			linePosition + 1: true,
+		},
+		line + 1: {
+			linePosition - 1: true,
+			linePosition:     true,
+			linePosition + 1: true,
+		},
+	}
+	// if on top line
+	if line == 0 {
+		for k := range asteriskMap[line-1] {
+			asteriskMap[line-1][k] = false
+		}
+	}
+	// if on right edge
+	if linePosition == len(data[line])-1 {
+		for k := range asteriskMap {
+			asteriskMap[k][linePosition+1] = false
+		}
+	}
+	// if on bottom line
+	if line == len(data)-1 {
+		for k := range asteriskMap[line+1] {
+			asteriskMap[line+1][k] = false
+		}
+	}
+	// if on left edge
+	if linePosition == 0 {
+		for k := range asteriskMap {
+			asteriskMap[k][linePosition-1] = false
+		}
+	}
+	return asteriskMap
+}
+
 // ParseSchematic parses the provided string data, producing a
 // 2D array of PartNumbers.
 func ParseSchematic(data []string) ([][]PartNumber, error) {
