@@ -35,7 +35,7 @@ func MakeMapCollection(dataQueue *list.List) ([]AlmanacMap, error) {
 // for this method to work correctly.
 func SelectCorrespondingMap(mapCol []AlmanacMap, src int64) AlmanacMap {
 	for _, alMap := range mapCol {
-		if src >= alMap.Source {
+		if src <= alMap.Source+alMap.Range-1 {
 			return alMap
 		}
 	}

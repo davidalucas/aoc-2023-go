@@ -120,11 +120,11 @@ func (almanac *Almanac) FindMinimumLocationImproved() int64 {
 	// loop over each seed-range pair
 	for i := 0; i < len(almanac.Seeds); i += 2 {
 		seed := almanac.Seeds[i]
-		seedRange := almanac.Seeds[i+1]
+		lastSeedInSet := almanac.Seeds[i] + almanac.Seeds[i+1]
 		// loop over each seed (but jump using ranges)
-		for seed < almanac.Seeds[i]+almanac.Seeds[i+1] {
+		for seed < lastSeedInSet {
 			src := seed
-			rng := seedRange - seed
+			rng := lastSeedInSet - seed
 
 			// traverse the map collections
 			for _, mapColl := range almanac.MapCollections {

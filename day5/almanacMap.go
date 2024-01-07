@@ -61,14 +61,18 @@ func (almanacMap *AlmanacMap) GetDestinationRange(src int64, srcRange int64) (in
 	}
 
 	// too high
-	if almanacMap.Source+almanacMap.Range <= diff {
+	if almanacMap.Range <= diff {
 		return src, srcRange
 	}
 
 	// in zone
+	dest, found := almanacMap.GetDestination(src)
+	if !found {
+		panic("uh oh")
+	}
 	remainingRange := almanacMap.Range - diff
 	if srcRange < remainingRange {
-		return almanacMap.Destination, srcRange
+		return dest, srcRange
 	}
-	return almanacMap.Destination, remainingRange
+	return dest, remainingRange
 }
