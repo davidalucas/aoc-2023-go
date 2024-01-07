@@ -64,13 +64,15 @@ func ParseMapCollections(scanner *bufio.Scanner) ([][]AlmanacMap, error) {
 	dataQueue := list.New()
 	var mapCollections [][]AlmanacMap
 	for scanner.Scan() {
-		if scanner.Text() == "" {
-			mapCollection, err := MakeMapCollection(dataQueue)
-			if err != nil {
-				return nil, err
-			}
-			mapCollections = append(mapCollections, mapCollection)
+		if scanner.Text() != "" {
+			dataQueue.PushBack(scanner.Text())
+			continue
 		}
+		mapCollection, err := MakeMapCollection(dataQueue)
+		if err != nil {
+			return nil, err
+		}
+		mapCollections = append(mapCollections, mapCollection)
 	}
 	// empty out the queue at the end of the file
 	mapCollection, err := MakeMapCollection(dataQueue)
