@@ -111,3 +111,35 @@ func (almanac *Almanac) FindMinimumLocation() int64 {
 
 	return minLocation
 }
+
+// FindMinimumLocationImproved finds the minimum seed location, as described in the
+// AoC Day 5 Part 2 problem.
+func (almanac *Almanac) FindMinimumLocationImproved() int64 {
+	var minLocation int64 = -1
+
+	// loop over each seed-range pair
+	for i := 0; i < len(almanac.Seeds); i += 2 {
+		seed := almanac.Seeds[i]
+		seedRange := almanac.Seeds[i+1]
+		// loop over each seed (but jump using ranges)
+		for seed < almanac.Seeds[i]+almanac.Seeds[i+1] {
+			src := seed
+			rng := seedRange - seed
+
+			// traverse the map collections
+			for _, mapColl := range almanac.MapCollections {
+				corrMap := SelectCorrespondingMap(mapColl, src)
+				src, rng = corrMap.GetDestinationRange(src, rng)
+			}
+
+			if minLocation == -1 {
+				minLocation = src
+			} else if src < minLocation {
+				minLocation = src
+			}
+
+			seed += rng
+		}
+	}
+	return minLocation
+}
