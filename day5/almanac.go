@@ -82,3 +82,32 @@ func ParseMapCollections(scanner *bufio.Scanner) ([][]AlmanacMap, error) {
 	mapCollections = append(mapCollections, mapCollection)
 	return mapCollections, nil
 }
+
+// FindMinimumLocation finds the minimum seed location, as described in the
+// AoC Day 5 Part 1 problem.
+func (almanac *Almanac) FindMinimumLocation() int64 {
+	var minLocation int64
+
+	for i, seed := range almanac.Seeds {
+		source := seed
+
+		for _, mapCol := range almanac.MapCollections {
+			for _, alMap := range mapCol {
+				dest, valid := alMap.GetDestination(source)
+				if !valid {
+					continue
+				}
+				source = dest
+				break
+			}
+		}
+
+		if i == 0 {
+			minLocation = source
+		} else if source < minLocation {
+			minLocation = source
+		}
+	}
+
+	return minLocation
+}

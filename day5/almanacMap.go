@@ -33,3 +33,14 @@ func MakeAlmanacMap(data string) (*AlmanacMap, error) {
 		Range:       rg,
 	}, nil
 }
+
+// GetDestination retrieves the destination value that corresponds to the provided
+// source value. If source is invalid, it returns the provided source value, along with
+// a bool value of 'false'.
+func (almanacMap *AlmanacMap) GetDestination(src int64) (int64, bool) {
+	diff := src - almanacMap.Source
+	if diff < 0 || diff >= almanacMap.Range {
+		return src, false
+	}
+	return almanacMap.Destination + (src - almanacMap.Source), true
+}

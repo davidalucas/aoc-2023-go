@@ -51,3 +51,27 @@ func Test_MakeAlmanac_Constructs_Expected_Almanac(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 }
+
+func Test_FindMinimumLocation_Finds_Correct_Location_For_Example_Data(t *testing.T) {
+	var expected int64 = 35
+	almanac, err := MakeAlmanac("example.txt")
+	if err != nil {
+		t.Errorf("test failed with the following error: %v", err)
+	}
+	actual := almanac.FindMinimumLocation()
+	if actual != expected {
+		t.Errorf("expected %v, received %v", expected, actual)
+	}
+}
+
+func Test_FindMinimumLocation_Finds_Correct_Location_For_Real_Data(t *testing.T) {
+	var expected int64 = 227653707
+	almanac, err := MakeAlmanac("data.txt")
+	if err != nil {
+		t.Errorf("test failed with the following error: %v", err)
+	}
+	actual := almanac.FindMinimumLocation()
+	if actual != expected {
+		t.Errorf("expected %v, received %v", expected, actual)
+	}
+}
