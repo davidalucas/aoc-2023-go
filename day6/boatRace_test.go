@@ -42,3 +42,19 @@ func Test_CalcErrorMargin_Returns_Expected_Result_For_Real_Data(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 }
+
+func Test_CalcErrorMargin_Returns_Expected_Result_For_Example2(t *testing.T) {
+	expected := 71503
+	actual := CalcErrorMargin(exampleData2)
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
+
+func Test_CalcErrorMargin_Returns_Expected_Result_For_Real_Data2(t *testing.T) {
+	expected := 27340847
+	actual := CalcErrorMargin(realData2)
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
