@@ -15,3 +15,19 @@ var CardValues = map[byte]int{
 	'K': 11,
 	'A': 12,
 }
+
+var CardValuesWithJokers = map[byte]int{
+	'J': 0,
+	'2': 1,
+	'3': 2,
+	'4': 3,
+	'5': 4,
+	'6': 5,
+	'7': 6,
+	'8': 7,
+	'9': 8,
+	'T': 9,
+	'Q': 10,
+	'K': 11,
+	'A': 12,
+}

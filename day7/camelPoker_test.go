@@ -107,3 +107,27 @@ func Test_CalcTotalWinnings_Returns_Correct_Value_For_Real_Data(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 }
+
+func Test_CalcTotalWinningsWithJokers_Returns_Correct_Value_For_Example_Data(t *testing.T) {
+	expected := 5905
+	hands, err := ParsePokerFileWithJokers("example.txt")
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	actual := CalcTotalWinningsWithJokers(hands)
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
+
+func Test_CalcTotalWinningsWithJokers_Returns_Correct_Value_For_Real_Data(t *testing.T) {
+	expected := 250825971
+	hands, err := ParsePokerFileWithJokers("data.txt")
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	actual := CalcTotalWinningsWithJokers(hands)
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
