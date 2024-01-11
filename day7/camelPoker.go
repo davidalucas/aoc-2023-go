@@ -1,7 +1,9 @@
 package day7
 
 import (
+	"bufio"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -42,6 +44,28 @@ func calcCardsScore(cards string) int {
 		score += int(math.Pow(v, 2))
 	}
 	return score
+}
+
+// ParsePokerFile parses a file at the specified path location, returning
+// a slice of Hand objects. Returns errors if the file path was incorrect,
+// or if the file's contents was in an unexpected format.
+func ParsePokerFile(path string) ([]Hand, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	hands := make([]Hand, 0)
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		hand, err := MakeHand(scanner.Text())
+		if err != nil {
+			return nil, err
+		}
+		hands = append(hands, *hand)
+	}
+	return hands, nil
 }
 
 // CompareHands compares two hands and returns <0 if 'a' is less than 'b',
