@@ -46,7 +46,7 @@ func Test_CompareHands_Returns_Negative_When_Expected(t *testing.T) {
 		t.Errorf("Test failed with the following error: %v", err)
 	}
 
-	compareResult := CompareHands(hand1, hand2)
+	compareResult := CompareHands(*hand1, *hand2)
 
 	if compareResult >= 0 {
 		t.Errorf("Expected comparing hand %v against %v would be less than zero, but received %v", hand1.Cards, hand2.Cards, compareResult)
@@ -64,7 +64,7 @@ func Test_CompareHands_Returns_Positive_When_Expected(t *testing.T) {
 		t.Errorf("Test failed with the following error: %v", err)
 	}
 
-	compareResult := CompareHands(hand2, hand1)
+	compareResult := CompareHands(*hand2, *hand1)
 
 	if compareResult <= 0 {
 		t.Errorf("Expected comparing hand %v against %v would be greater than zero, but received %v", hand2.Cards, hand1.Cards, compareResult)
@@ -77,9 +77,33 @@ func Test_CompareHands_Returns_Zero_When_Expected(t *testing.T) {
 		t.Errorf("Test failed with the following error: %v", err)
 	}
 
-	compareResult := CompareHands(hand, hand)
+	compareResult := CompareHands(*hand, *hand)
 
 	if compareResult != 0 {
 		t.Errorf("Expected comparing hand %v against itself would return zero, but received %v", hand.Cards, compareResult)
+	}
+}
+
+func Test_CalcTotalWinnings_Returns_Correct_Value_For_Example_Data(t *testing.T) {
+	expected := 6440
+	hands, err := ParsePokerFile("example.txt")
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	actual := CalcTotalWinnings(hands)
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
+
+func Test_CalcTotalWinnings_Returns_Correct_Value_For_Real_Data(t *testing.T) {
+	expected := 251216224
+	hands, err := ParsePokerFile("data.txt")
+	if err != nil {
+		t.Errorf("Test failed with the following error: %v", err)
+	}
+	actual := CalcTotalWinnings(hands)
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 }

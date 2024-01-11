@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"math"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -70,7 +71,7 @@ func ParsePokerFile(path string) ([]Hand, error) {
 
 // CompareHands compares two hands and returns <0 if 'a' is less than 'b',
 // >0 if 'a' is greater than 'b', and 0 if 'a' and 'b' are equal.
-func CompareHands(a *Hand, b *Hand) int {
+func CompareHands(a Hand, b Hand) int {
 	diff := a.Score - b.Score
 
 	if diff != 0 {
@@ -85,4 +86,15 @@ func CompareHands(a *Hand, b *Hand) int {
 	}
 
 	return 0
+}
+
+// CalcTotalWinnings calculates the total winnings, as described in the
+// Day 7 Part 1 problem description.
+func CalcTotalWinnings(hands []Hand) int {
+	slices.SortFunc(hands, CompareHands)
+	winnings := 0
+	for i, h := range hands {
+		winnings += h.Bid * (i + 1)
+	}
+	return winnings
 }
