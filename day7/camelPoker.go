@@ -28,7 +28,7 @@ func MakeHand(rawData string) (*Hand, error) {
 
 // CalcCardsScore calculates the base score for a set of cards.
 func calcCardsScore(cards string) int {
-	cardMap := make(map[byte]uint8)
+	cardMap := make(map[byte]float64)
 	for i := 0; i < len(cards); i++ {
 		_, ok := cardMap[cards[i]]
 		if !ok {
@@ -39,7 +39,26 @@ func calcCardsScore(cards string) int {
 	}
 	score := 0
 	for _, v := range cardMap {
-		score += int(math.Pow(float64(v), 2))
+		score += int(math.Pow(v, 2))
 	}
 	return score
+}
+
+// CompareHands compares two hands and returns <0 if 'a' is less than 'b',
+// >0 if 'a' is greater than 'b', and 0 if 'a' and 'b' are equal.
+func CompareHands(a *Hand, b *Hand) int {
+	diff := a.Score - b.Score
+
+	if diff != 0 {
+		return diff
+	}
+
+	for i := 0; i < len(a.Cards); i++ {
+		if CardValues[a.Cards[i]] == CardValues[b.Cards[i]] {
+			continue
+		}
+		return CardValues[a.Cards[i]] - CardValues[b.Cards[i]]
+	}
+
+	return 0
 }
